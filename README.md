@@ -117,13 +117,13 @@ Fine-tuned Model
 Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/<repository-name>.git
+git clone https://github.com/rishu023/QLoRA-Fine-Tuned-LLaMA-2-
 ```
 
 Move into the project
 
 ```bash
-cd <repository-name>
+cd https://github.com/rishu023/QLoRA-Fine-Tuned-LLaMA-2-
 ```
 
 Install dependencies

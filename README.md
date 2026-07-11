@@ -1,84 +1,190 @@
-# Fine-tuning on Personal Dataset
+# Fine-tuning LLaMA-2-7B using QLoRA on a Custom Dataset
 
+This project demonstrates parameter-efficient fine-tuning of **Meta's LLaMA-2-7B** model on a custom text dataset using **QLoRA (Quantized Low-Rank Adaptation)**. By combining **4-bit quantization** with **LoRA adapters**, the project significantly reduces GPU memory requirements while adapting a 7B parameter language model to a domain-specific dataset.
+
+---
 
 ## Overview
-This repository contains a Jupyter Notebook for fine-tuning a model on a personal (custom) dataset. The notebook walks through data loading, preprocessing, model configuration, training, and evaluation.
+
+Large Language Models often require substantial computational resources for fine-tuning. This project explores an efficient fine-tuning pipeline that:
+
+- Fine-tunes **LLaMA-2-7B** on a custom dataset
+- Uses **QLoRA** with **4-bit NF4 quantization**
+- Applies **LoRA adapters** for parameter-efficient training
+- Keeps the base model frozen while training only adapter weights
+- Performs instruction-based supervised fine-tuning using Hugging Face Transformers
+
+---
+
+## Key Features
+
+- Fine-tuning of **Meta LLaMA-2-7B**
+- QLoRA-based training
+- 4-bit quantization using BitsAndBytes
+- LoRA adapters on transformer attention layers
+- Parameter-efficient fine-tuning (training only ~0.2% of model parameters)
+- Hugging Face Transformers + PEFT
+- Custom text dataset
+
+---
 
 ## Tech Stack
-- Pytorch
-- Huggingface
 
-## Requirements
-Install dependencies (adjust versions as needed):
+- Python
+- PyTorch
+- Hugging Face Transformers
+- PEFT
+- BitsAndBytes
+- Datasets
+- Accelerate
 
-```bash
-pip install datasets peft torch transformers GPUtil google huggingface_hub
+---
+
+## Model
+
+**Base Model**
+
+- Meta LLaMA-2-7B-Chat
+
+**Fine-tuning Technique**
+
+- QLoRA
+- LoRA (Low-Rank Adaptation)
+
+**Quantization**
+
+- 4-bit NF4
+
+---
+
+## Training Configuration
+
+| Parameter | Value |
+|-----------|------:|
+| Epochs | 3 |
+| Learning Rate | 1e-4 |
+| Batch Size | 2 |
+| Gradient Accumulation | 2 |
+| Quantization | 4-bit |
+| Fine-tuning Method | QLoRA + LoRA |
+
+---
+
+## Project Workflow
+
 ```
 
-### Notebook-Embedded Installs
-The notebook also includes these installation commands (review/merge with requirements above):
+Custom Dataset
+│
+▼
+Tokenizer
+│
+▼
+4-bit Quantization
+(BitsAndBytes)
+│
+▼
+LLaMA-2-7B
+│
+▼
+LoRA Adapters
+│
+▼
+Parameter-efficient Fine-tuning
+│
+▼
+Fine-tuned Model
 
 ```
-!pip install peft
-!pip install accelerate
-!pip install bitsandBytes
-!pip install transformers
-!pip install datasets
-!pip install GPUtil
-```
 
-## Dataset
-**Hugging Face Datasets used:** text
-
-**Local dataset paths referenced:**
-- /content/Fine-tuning-LLMs/data/hawaii_wf_2.txt
-- /content/Fine-tuning-LLMs/data/hawaii_wf_4.txt
-
-**Data/model files referenced:**
-- /content/Fine-tuning-LLMs/data/hawaii_wf_2.txt
-- /content/Fine-tuning-LLMs/data/hawaii_wf_4.txt
-
-## Model & Training
-**Base / checkpoint candidates detected:** ./finetunedModel, ./log, /content/Fine-tuning-LLMs/data/hawaii_wf_2.txt, /content/Fine-tuning-LLMs/data/hawaii_wf_4.txt, finetunedModel/checkpoint-20, meta-llama/Llama-2-7b-chat-hf
-
-**Hyperparameters observed:**
-- **epochs**: 3
-- **learning_rate**: 1e-4
-- **batch_size**: 2
-- **train_batch_size**: 2
-- **gradient_accumulation_steps**: 2
-
-**Output directories:** ./finetunedModel
-
-## How to Run
-
-1. Clone or download this project and ensure the dataset paths in the notebook are correct.
-2. Create a virtual environment (optional but recommended):
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # on Windows: .venv\Scripts\activate
-   ```
-3. Install dependencies (see **Requirements**).
-4. Launch Jupyter and open the notebook:
-   ```bash
-   jupyter lab  # or jupyter notebook
-   ```
-5. Execute cells top-to-bottom, monitoring GPU/CPU memory and logs.
-
-
-## Results
-Add key metrics (e.g., accuracy, F1, loss curves) and sample predictions.
+---
 
 ## Repository Structure
-- `finetuning_personal_dataset.ipynb` — main notebook.
-- `README.md` — this file.
-- `data/` — place your dataset here (optional).
-- `outputs/` — trained artifacts/checkpoints (optional).
 
-## Reproducibility
-- Set random seeds where applicable.
-- Pin package versions or use a lockfile/`requirements.txt`.
-- Log training config and metrics (e.g., with TensorBoard or Weights & Biases).
+```
+
+.
+├── README.md
+├── requirements.txt
+└── finetuning\_personal\_dataset.ipynb
+
+```
+
+---
+
+## Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/<your-username>/<repository-name>.git
+```
+
+Move into the project
+
+```bash
+cd <repository-name>
+```
+
+Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+Launch Jupyter Notebook
+
+```bash
+jupyter notebook
+```
+
+Open
+
+```
+finetuning_personal_dataset.ipynb
+```
+
+---
+
+## Dataset
+
+The notebook uses a custom text dataset for supervised instruction fine-tuning.
+
+Update the dataset path inside the notebook before training if using your own data.
+
+---
+
+## Results
+
+The project successfully demonstrates:
+
+- Memory-efficient fine-tuning of a 7B parameter LLM
+- Parameter-efficient adaptation using LoRA
+- Reduced GPU memory consumption through 4-bit quantization
+- End-to-end training pipeline using the Hugging Face ecosystem
+
+---
+
+## Future Improvements
+
+- Hyperparameter optimization
+- Evaluation on benchmark datasets
+- Experiment with larger LoRA ranks
+- Multi-GPU training using DeepSpeed/FSDP
+- Model deployment using Hugging Face Inference Endpoints
+
+---
 
 ## License
-Specify your license (e.g., MIT) here.
+
+MIT License
+
+---
+
+## Author
+
+**Rishu Bhadani**
+
+B.Tech, Mechanical Engineering  
+Minor in Artificial Intelligence and Data Science  
+Indian Institute of Technology Bombay
